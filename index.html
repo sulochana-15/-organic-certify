@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OrganicCertify – Complete Your Organic Certification Journey</title>
+  <meta name="description" content="OrganicCertify helps small and medium farmers track certification requirements, upload documents, monitor progress, and prepare for inspection. Join 12,000+ certified farmers." />
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="OrganicCertify – Complete Your Organic Certification Journey" />
+  <meta property="og:description" content="Stop struggling with complex paperwork. OrganicCertify guides Indian farmers step-by-step from first application to certification approval." />
+  <meta property="og:image" content="https://wonderful-lily-899454.netlify.app/og-preview.png" />
+  <meta property="og:url" content="https://wonderful-lily-899454.netlify.app" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="OrganicCertify – Organic Certification Made Easy" />
+  <meta name="twitter:description" content="Track requirements, upload documents, and prepare for your farm inspection — all in one place." />
+  <!-- Canonical -->
+  <link rel="canonical" href="https://wonderful-lily-899454.netlify.app" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <span class="logo-icon">🌿</span>
+      <span class="logo-text">OrganicCertify</span>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#" class="nav-link active" onclick="showPage('landing', this)">Home</a>
+      <a href="#" class="nav-link" onclick="showPage('dashboard', this)">Dashboard</a>
+      <a href="#" class="nav-link" onclick="showPage('checklist', this)">Checklist</a>
+      <a href="#" class="nav-link" onclick="showPage('documents', this)">Documents</a>
+      <a href="#" class="nav-link" onclick="showPage('calculator', this)">Cost Calculator</a>
+      <a href="#" class="nav-link" onclick="showPage('inspection', this)">Inspection Guide</a>
+      <a href="#" class="nav-link" onclick="showPage('reminders', this)">Reminders</a>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ===== PAGE: LANDING ===== -->
+<main id="page-landing" class="page active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge"><span class="badge-pulse-dot"></span>🏆 Trusted by 12,000+ Farmers</div>
+      <h1 class="hero-title">Complete Your Organic<br /><span class="gradient-text">Certification Journey</span><br />Easily</h1>
+      <p class="hero-subtitle">Stop struggling with complex paperwork. OrganicCertify guides you step-by-step — from first application to certification approval.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary btn-lg" onclick="showPage('dashboard', document.querySelector('[onclick*=dashboard]'))">
+          🚀 Start My Journey
+        </button>
+        <button class="btn btn-ghost btn-lg" onclick="showPage('checklist', document.querySelector('[onclick*=checklist]'))">
+          📋 View Checklist
+        </button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num" data-count="95" data-suffix="%">0%</span>
+          <span class="stat-label">Approval Rate</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num" data-count="12" data-suffix="K+">0K+</span>
+          <span class="stat-label">Farmers Certified</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num" data-count="30" data-suffix="%">0%</span>
+          <span class="stat-label">Faster Process</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num" data-count="98" data-suffix="%">0%</span>
+          <span class="stat-label">Satisfaction Rate</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card-float card-1">
+        <span class="card-icon">✅</span>
+        <div>
+          <p class="card-title">Soil Test</p>
+          <p class="card-sub">Completed</p>
+        </div>
+      </div>
+      <div class="hero-card-float card-2">
+        <span class="card-icon">📄</span>
+        <div>
+          <p class="card-title">Documents</p>
+          <p class="card-sub">4 of 6 uploaded</p>
+        </div>
+      </div>
+      <div class="hero-card-float card-3">
+        <div class="progress-mini">
+          <span>Progress</span>
+          <span class="progress-pct">70%</span>
+        </div>
+        <div class="progress-bar-mini">
+          <div class="progress-fill-mini" style="width: 70%"></div>
+        </div>
+      </div>
+      <div class="hero-illustration">🌾</div>
+    </div>
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator" onclick="document.querySelector('.benefits-section').scrollIntoView({behavior:'smooth'})">
+      <span class="scroll-label">Scroll to explore</span>
+      <div class="scroll-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works-section">
+    <div class="section-header">
+      <div class="section-chip">📖 Simple Process</div>
+      <h2 class="section-title">How OrganicCertify Works</h2>
+      <p class="section-subtitle">Three easy steps to get your organic certification.</p>
+    </div>
+    <div class="hiw-steps">
+      <div class="hiw-step">
+        <div class="hiw-step-num">01</div>
+        <div class="hiw-step-icon">📋</div>
+        <h3>Fill Your Profile & Checklist</h3>
+        <p>Enter your farm details, crop types, and land information. Our checklist tells you exactly what documents you need.</p>
+      </div>
+      <div class="hiw-connector"><span></span></div>
+      <div class="hiw-step">
+        <div class="hiw-step-num">02</div>
+        <div class="hiw-step-icon">📁</div>
+        <h3>Upload Documents & Track Progress</h3>
+        <p>Securely upload all required documents. Monitor your certification progress in real time on the dashboard.</p>
+      </div>
+      <div class="hiw-connector"><span></span></div>
+      <div class="hiw-step">
+        <div class="hiw-step-num">03</div>
+        <div class="hiw-step-icon">🏆</div>
+        <h3>Pass Inspection & Get Certified</h3>
+        <p>Use our inspection preparation guide, get reminders for deadlines, and receive your organic certificate.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section class="benefits-section">
+    <div class="section-header">
+      <div class="section-chip">⚡ Features</div>
+      <h2 class="section-title">Everything You Need to Get Certified</h2>
+      <p class="section-subtitle">Simple tools designed for farmers, not paperwork experts.</p>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit-card" onclick="showPage('checklist', document.querySelector('[onclick*=checklist]'))">
+        <div class="benefit-icon" style="background: linear-gradient(135deg, #22c55e, #16a34a)">📋</div>
+        <h3>Track Requirements</h3>
+        <p>Know exactly what documents and steps are needed for your specific certification type.</p>
+        <span class="benefit-arrow">→</span>
+      </div>
+      <div class="benefit-card" onclick="showPage('documents', document.querySelector('[onclick*=documents]'))">
+        <div class="benefit-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8)">📁</div>
+        <h3>Upload Documents</h3>
+        <p>Securely upload and organize all your farm documents in one place.</p>
+        <span class="benefit-arrow">→</span>
+      </div>
+      <div class="benefit-card" onclick="showPage('dashboard', document.querySelector('[onclick*=dashboard]'))">
+        <div class="benefit-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706)">📊</div>
+        <h3>Monitor Progress</h3>
+        <p>See your certification progress at a glance. Know what's done, what's pending.</p>
+        <span class="benefit-arrow">→</span>
+      </div>
+      <div class="benefit-card" onclick="showPage('inspection', document.querySelector('[onclick*=inspection]'))">
+        <div class="benefit-icon" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9)">🔍</div>
+        <h3>Prepare for Inspection</h3>
+        <p>Step-by-step inspection preparation guide so you're ready when the inspector visits.</p>
+        <span class="benefit-arrow">→</span>
+      </div>
+      <div class="benefit-card" onclick="showPage('calculator', document.querySelector('[onclick*=calculator]'))">
+        <div class="benefit-icon" style="background: linear-gradient(135deg, #ef4444, #b91c1c)">💰</div>
+        <h3>Cost Calculator</h3>
+        <p>Estimate your total certification costs before you start. No hidden fees.</p>
+        <span class="benefit-arrow">→</span>
+      </div>
+      <div class="benefit-card" onclick="showPage('reminders', document.querySelector('[onclick*=reminders]'))">
+        <div class="benefit-icon" style="background: linear-gradient(135deg, #06b6d4, #0e7490)">🔔</div>
+        <h3>Deadline Reminders</h3>
+        <p>Never miss a submission deadline or renewal date. Get notified in advance.</p>
+        <span class="benefit-arrow">→</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials-section">
+    <div class="section-header">
+      <div class="section-chip">💬 Testimonials</div>
+      <h2 class="section-title">Farmers Love OrganicCertify</h2>
+      <p class="section-subtitle">Real stories from farmers across India who got certified.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-quote-icon">❝</div>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>"I was so confused about what documents to submit. OrganicCertify made it crystal clear. I got certified in just 4 months!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">🧑‍🌾</div>
+          <div>
+            <strong>Ramesh Kumar</strong>
+            <span>🌾 Rice Farmer, Punjab</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card featured">
+        <div class="testimonial-quote-icon" style="color:rgba(255,255,255,.4)">❝</div>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>"The checklist feature saved me so much time. I knew exactly what was pending and finished everything on time. Highly recommended!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">👩‍🌾</div>
+          <div>
+            <strong>Priya Devi</strong>
+            <span>🥦 Vegetable Farmer, Maharashtra</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote-icon">❝</div>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>"The cost calculator helped me plan my budget. Very useful for small farmers like me. Got NPOP certified with no surprises!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">🧓</div>
+          <div>
+            <strong>Suresh Patel</strong>
+            <span>🌿 Cotton Farmer, Gujarat</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonials-trust-row">
+      <span>🏛️ Recognized by APEDA</span>
+      <span>✅ NPOP Compliant</span>
+      <span>🌍 Used across 18 States</span>
+      <span>⭐ 4.9/5 average rating</span>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="cta-banner">
+    <div class="cta-decorations">
+      <span class="cta-leaf cta-leaf-1">🍃</span>
+      <span class="cta-leaf cta-leaf-2">🌿</span>
+      <span class="cta-leaf cta-leaf-3">🌱</span>
+      <span class="cta-leaf cta-leaf-4">🍃</span>
+    </div>
+    <div class="cta-content">
+      <div class="cta-badge">🚀 Free to Use — No Credit Card Required</div>
+      <h2>Ready to Start Your Organic Journey?</h2>
+      <p>Join thousands of farmers across India who have successfully got organic certified.</p>
+      <div class="cta-btns">
+        <button class="btn btn-white btn-lg" onclick="showPage('dashboard', document.querySelector('[onclick*=dashboard]'))">
+          🌿 Get Started Free
+        </button>
+        <button class="btn btn-ghost btn-lg" onclick="showPage('checklist', document.querySelector('[onclick*=checklist]'))">
+          📋 View Checklist
+        </button>
+      </div>
+    </div>
+    <div class="cta-trust-row">
+      <span>🔒 100% Secure</span>
+      <span>📱 Mobile Friendly</span>
+      <span>🆓 Always Free for Farmers</span>
+      <span>🌐 Available in Hindi & English</span>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <div class="footer-logo"><span>🌿</span> OrganicCertify</div>
+        <p>Helping Indian farmers get certified since 2023. Simple, fast, and completely free.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn" title="Facebook">📘</a>
+          <a href="#" class="footer-social-btn" title="Twitter">🐦</a>
+          <a href="#" class="footer-social-btn" title="WhatsApp">💬</a>
+          <a href="#" class="footer-social-btn" title="YouTube">▶️</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div class="footer-link-group">
+          <h4>Quick Links</h4>
+          <a href="#" onclick="showPage('dashboard', document.querySelector('[onclick*=dashboard]'))">Dashboard</a>
+          <a href="#" onclick="showPage('checklist', document.querySelector('[onclick*=checklist]'))">Checklist</a>
+          <a href="#" onclick="showPage('documents', document.querySelector('[onclick*=documents]'))">Documents</a>
+          <a href="#" onclick="showPage('calculator', document.querySelector('[onclick*=calculator]'))">Cost Calculator</a>
+        </div>
+        <div class="footer-link-group">
+          <h4>Resources</h4>
+          <a href="#" onclick="showPage('inspection', document.querySelector('[onclick*=inspection]'))">Inspection Guide</a>
+          <a href="#" onclick="showPage('reminders', document.querySelector('[onclick*=reminders]'))">Reminders</a>
+          <a href="#">NPOP Guidelines</a>
+          <a href="#">PGS-India Info</a>
+        </div>
+        <div class="footer-link-group">
+          <h4>Certifications</h4>
+          <a href="#">NPOP (National)</a>
+          <a href="#">PGS-India</a>
+          <a href="#">USDA Organic</a>
+          <a href="#">EU Organic</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 OrganicCertify. All rights reserved. This is a prototype for educational use.</p>
+      <div class="footer-badges">
+        <span>🇮🇳 Made in India</span>
+        <span>🌿 For Indian Farmers</span>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<!-- ===== PAGE: DASHBOARD ===== -->
+<main id="page-dashboard" class="page">
+  <div class="page-container">
+
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">👨‍🌾 Farmer Dashboard</h1>
+        <p class="page-desc">Welcome back, Ramesh! Here's your certification overview.</p>
+      </div>
+      <div class="header-badge badge-active">🟢 Application Active</div>
+    </div>
+
+    <div class="dashboard-top">
+      <div class="card profile-card">
+        <div class="profile-avatar">🧑‍🌾</div>
+        <div class="profile-info">
+          <h2 class="profile-name">Ramesh Kumar</h2>
+          <p class="profile-detail">📍 Village Anandpur, Punjab</p>
+          <p class="profile-detail">📞 +91 98765 43210</p>
+          <p class="profile-detail">🌾 Rice &amp; Wheat Farm</p>
+        </div>
+        <div class="profile-tags">
+          <span class="tag tag-green">🌿 Organic Farming</span>
+          <span class="tag tag-blue">📋 NPOP Certification</span>
+        </div>
+        <div class="profile-meta">
+          <div class="meta-item">
+            <span class="meta-label">Farm Size</span>
+            <span class="meta-value">8.5 Acres</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Applied On</span>
+            <span class="meta-value">Jan 15, 2026</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Application ID</span>
+            <span class="meta-value">OC-2026-0847</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card progress-card">
+        <h3 class="card-title">Certification Progress</h3>
+        <div class="big-progress">
+          <svg class="circle-progress" viewBox="0 0 120 120">
+            <circle class="circle-bg" cx="60" cy="60" r="52" />
+            <circle class="circle-fill" cx="60" cy="60" r="52" id="progressCircle" />
+          </svg>
+          <div class="circle-text">
+            <span class="circle-pct" id="progressPct">70%</span>
+            <span class="circle-label">Complete</span>
+          </div>
+        </div>
+        <div class="progress-legend">
+          <div class="legend-item"><span class="dot dot-green"></span> Completed: 7 tasks</div>
+          <div class="legend-item"><span class="dot dot-orange"></span> Pending: 3 tasks</div>
+          <div class="legend-item"><span class="dot dot-gray"></span> Not Started: 1 task</div>
+        </div>
+        <div class="timeline-row">
+          <span class="timeline-label">🗓️ Est. Completion</span>
+          <span class="timeline-date">October 30, 2026</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tasks-row">
+      <div class="card task-card">
+        <div class="task-header task-header-green">
+          <h3>✅ Completed Tasks</h3>
+          <span class="task-count">7</span>
+        </div>
+        <ul class="task-list">
+          <li class="task-item done"><span class="task-check">✓</span><div class="task-content"><strong>Farm Registration</strong><small>Completed on Feb 1, 2026</small></div></li>
+          <li class="task-item done"><span class="task-check">✓</span><div class="task-content"><strong>Land Ownership Proof</strong><small>Document verified</small></div></li>
+          <li class="task-item done"><span class="task-check">✓</span><div class="task-content"><strong>Soil Testing</strong><small>Report submitted</small></div></li>
+          <li class="task-item done"><span class="task-check">✓</span><div class="task-content"><strong>Farm Map Submission</strong><small>Approved by officer</small></div></li>
+          <li class="task-item done"><span class="task-check">✓</span><div class="task-content"><strong>Crop Detail Form</strong><small>All details filled</small></div></li>
+          <li class="task-item done"><span class="task-check">✓</span><div class="task-content"><strong>Organic Input Records</strong><small>Last 6 months submitted</small></div></li>
+          <li class="task-item done"><span class="task-check">✓</span><div class="task-content"><strong>Seed Information</strong><small>Non-GMO certified seeds</small></div></li>
+        </ul>
+      </div>
+
+      <div class="card task-card">
+        <div class="task-header task-header-orange">
+          <h3>⏳ Pending Tasks</h3>
+          <span class="task-count task-count-orange">3</span>
+        </div>
+        <ul class="task-list">
+          <li class="task-item pending"><span class="task-check-pending">!</span><div class="task-content"><strong>Water Quality Report</strong><small>⚠️ Due: Aug 15, 2026</small></div><span class="task-urgency high">High</span></li>
+          <li class="task-item pending"><span class="task-check-pending">!</span><div class="task-content"><strong>Pest Management Records</strong><small>📅 Due: Sep 1, 2026</small></div><span class="task-urgency medium">Medium</span></li>
+          <li class="task-item pending"><span class="task-check-pending">!</span><div class="task-content"><strong>Storage Management Plan</strong><small>📅 Due: Sep 30, 2026</small></div><span class="task-urgency low">Low</span></li>
+        </ul>
+        <div class="card not-started-section" style="margin-top:16px">
+          <h4 style="margin-bottom:10px;font-size:0.9rem;color:#6b7280;">⬜ Not Started</h4>
+          <div class="task-item" style="padding:8px 0">
+            <span style="font-size:1.1rem">🔲</span>
+            <div class="task-content"><strong>Final Inspection Booking</strong><small>Available after all tasks complete</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card quick-actions-card">
+      <h3 class="card-title">⚡ Quick Actions</h3>
+      <div class="quick-actions-grid">
+        <button class="quick-btn" onclick="showPage('checklist', document.querySelector('[onclick*=checklist]'))"><span>📋</span><span>View Checklist</span></button>
+        <button class="quick-btn" onclick="showPage('documents', document.querySelector('[onclick*=documents]'))"><span>📁</span><span>Upload Documents</span></button>
+        <button class="quick-btn" onclick="showPage('inspection', document.querySelector('[onclick*=inspection]'))"><span>🔍</span><span>Prep for Inspection</span></button>
+        <button class="quick-btn" onclick="showPage('reminders', document.querySelector('[onclick*=reminders]'))"><span>🔔</span><span>View Reminders</span></button>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ===== PAGE: CHECKLIST ===== -->
+<main id="page-checklist" class="page">
+  <div class="page-container">
+
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">📋 Certification Checklist</h1>
+        <p class="page-desc">Check each item as you complete it. Progress updates automatically.</p>
+      </div>
+    </div>
+
+    <div class="card checklist-progress-card">
+      <div class="checklist-progress-top">
+        <span class="cl-progress-label">Overall Completion</span>
+        <span class="cl-progress-pct" id="checklistPct">0%</span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="checklistBar" style="width: 0%"></div>
+      </div>
+      <div class="checklist-counts" id="checklistCounts">
+        <span>✅ 0 Completed</span>
+        <span>⏳ 0 Pending</span>
+      </div>
+    </div>
+
+    <div class="card checklist-section">
+      <div class="section-header-row">
+        <h3>🏡 Farm Information</h3>
+        <span class="section-badge" id="badge-farm">0/3</span>
+      </div>
+      <div class="checklist-items">
+        <label class="check-item" for="cl1">
+          <input type="checkbox" id="cl1" onchange="updateChecklist()" />
+          <span class="check-box"></span>
+          <div class="check-content"><strong>Land Ownership Proof</strong><p>Property deed, lease agreement, or government land record</p></div>
+          <span class="check-status" id="status-cl1">Pending</span>
+        </label>
+        <label class="check-item" for="cl2">
+          <input type="checkbox" id="cl2" onchange="updateChecklist()" />
+          <span class="check-box"></span>
+          <div class="check-content"><strong>Farm Map / Layout</strong><p>Detailed map showing field boundaries, water sources, and buffer zones</p></div>
+          <span class="check-status" id="status-cl2">Pending</span>
+        </label>
+        <label class="check-item" for="cl3">
+          <input type="checkbox" id="cl3" onchange="updateChecklist()" />
+          <span class="check-box"></span>
+          <div class="check-content"><strong>Crop Details Form</strong><p>List all crops grown, varieties, acreage per crop, and rotation plan</p></div>
+          <span class="check-status" id="status-cl3">Pending</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="card checklist-section">
+      <div class="section-header-row">
+        <h3>🌊 Soil and Water</h3>
+        <span class="section-badge" id="badge-soil">0/2</span>
+      </div>
+      <div class="checklist-items">
+        <label class="check-item" for="cl4">
+          <input type="checkbox" id="cl4" onchange="updateChecklist()" />
+          <span class="check-box"></span>
+          <div class="check-content"><strong>Soil Test Report</strong><p>Lab test results showing soil pH, nutrients, and absence of prohibited chemicals</p></div>
+          <span class="check-status" id="status-cl4">Pending</span>
+        </label>
+        <label class="check-item" for="cl5">
+          <input type="checkbox" id="cl5" onchange="updateChecklist()" />
+          <span class="check-box"></span>
+          <div class="check-content"><strong>Water Quality Report</strong><p>Irrigation water test showing no pesticide residue or heavy metal contamination</p></div>
+          <span class="check-status" id="status-cl5">Pending</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="card checklist-section">
+      <div class="section-header-row">
+        <h3>🌱 Organic Practices</h3>
+        <span class="section-badge" id="badge-organic">0/3</span>
+      </div>
+      <div class="checklist-items">
+        <label class="check-item" for="cl6">
+          <input type="checkbox" id="cl6" onchange="updateChecklist()" />
+          <span class="check-box"></span>
+          <div class="check-content"><strong>Organic Input Records</strong><p>Purchase receipts and usage records for fertilizers, compost, and bio-pesticides</p></div>
+          <span class="check-status" id="status-cl6">Pending</span>
+        </label>
+        <label class="check-item" for="cl7">
+          <input type="checkbox" id="cl7" onchange="updateChecklist()" />
+          <span class="check-box"></span>
+          <div class="check-content"><strong>Pest Management Records</strong><p>Log of pest occurrences and organic control methods used</p></div>
+          <span class="check-status" id="status-cl7">Pending</span>
+        </label>
+        <label class="check-item" for="cl8">
+          <input type="checkbox" id="cl8" onchange="updateChecklist()" />
+          <span class="check-box"></span>
+          <div class="check-content"><strong>Seed Information</strong><p>Proof of using untreated, non-GMO, organic or conventional seeds</p></div>
+          <span class="check-status" id="status-cl8">Pending</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="card checklist-section">
+      <div class="section-header-row">
+        <h3>🔍 Inspection Preparation</h3>
+        <span class="section-badge" id="badge-inspection">0/4</span>
+      </div>
+      <div class="checklist-items">
+        <label class="check-item" for="cl9">
+          <input type="checkbox" id="cl9" onchange="updateChecklist()" />
+          <span class="check-box"></span>
+          <div class="check-content"><strong>Farm Cleanliness</strong><p>Farm is tidy, equipment is clean, and no prohibited chemical containers visible</p></div>
+          <span class="check-status" id="status-cl9">Pending</span>
+        </label>
+        <label class="check-item" for="cl10">
+          <input type="checkbox" id="cl10" onchange="updateChecklist()" />
+          <span class="check-box"></span>
+          <div class="check-content"><strong>Storage Management</strong><p>Separate storage for organic produce, properly labeled containers</p></div>
+          <span class="check-status" id="status-cl10">Pending</span>
+        </label>
+        <label class="check-item" for="cl11">
+          <input type="checkbox" id="cl11" onchange="updateChecklist()" />
+          <span class="check-box"></span>
+          <div class="check-content"><strong>Record Maintenance</strong><p>All farm diaries, purchase receipts, and logs are organized and accessible</p></div>
+          <span class="check-status" id="status-cl11">Pending</span>
+        </label>
+        <label class="check-item" for="cl12">
+          <input type="checkbox" id="cl12" onchange="updateChecklist()" />
+          <span class="check-box"></span>
+          <div class="check-content"><strong>Interview Preparation</strong><p>Ready to explain organic practices, inputs used, and conversion history</p></div>
+          <span class="check-status" id="status-cl12">Pending</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="checklist-actions">
+      <button class="btn btn-outline" onclick="selectAll(true)">✅ Mark All Complete</button>
+      <button class="btn btn-outline btn-red" onclick="selectAll(false)">🔄 Reset All</button>
+    </div>
+
+  </div>
+</main>
+
+<!-- ===== PAGE: DOCUMENTS ===== -->
+<main id="page-documents" class="page">
+  <div class="page-container">
+
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">📁 Document Management</h1>
+        <p class="page-desc">Upload and manage all your certification documents here.</p>
+      </div>
+      <div class="doc-summary">
+        <span id="docUploaded">4</span> of <span id="docTotal">7</span> uploaded
+      </div>
+    </div>
+
+    <div class="doc-upload-bar card">
+      <div class="upload-bar-info">
+        <span>📊 Upload Progress</span>
+        <span id="docPct">57%</span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill doc-fill" id="docBar" style="width:57%"></div>
+      </div>
+    </div>
+
+    <div class="documents-grid" id="documentsGrid">
+
+      <div class="doc-card uploaded" id="doc-1">
+        <div class="doc-icon">📄</div>
+        <div class="doc-info">
+          <h4>Land Ownership Document</h4>
+          <p>Property deed / Patta</p>
+          <small class="doc-file-name">land_deed_ramesh.pdf</small>
+        </div>
+        <div class="doc-actions">
+          <span class="doc-status status-uploaded">✅ Uploaded</span>
+          <div class="doc-btns">
+            <button class="doc-btn doc-view" onclick="previewDoc(1)">👁 View</button>
+            <button class="doc-btn doc-delete" onclick="deleteDoc(1)">🗑</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-card uploaded" id="doc-2">
+        <div class="doc-icon">🗺️</div>
+        <div class="doc-info">
+          <h4>Farm Map</h4>
+          <p>Layout showing all fields</p>
+          <small class="doc-file-name">farm_map_v2.jpg</small>
+        </div>
+        <div class="doc-actions">
+          <span class="doc-status status-uploaded">✅ Uploaded</span>
+          <div class="doc-btns">
+            <button class="doc-btn doc-view" onclick="previewDoc(2)">👁 View</button>
+            <button class="doc-btn doc-delete" onclick="deleteDoc(2)">🗑</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-card uploaded" id="doc-3">
+        <div class="doc-icon">🧪</div>
+        <div class="doc-info">
+          <h4>Soil Test Report</h4>
+          <p>Lab analysis report</p>
+          <small class="doc-file-name">soil_test_2026.pdf</small>
+        </div>
+        <div class="doc-actions">
+          <span class="doc-status status-uploaded">✅ Uploaded</span>
+          <div class="doc-btns">
+            <button class="doc-btn doc-view" onclick="previewDoc(3)">👁 View</button>
+            <button class="doc-btn doc-delete" onclick="deleteDoc(3)">🗑</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-card uploaded" id="doc-4">
+        <div class="doc-icon">🌱</div>
+        <div class="doc-info">
+          <h4>Organic Input Records</h4>
+          <p>Receipts and purchase logs</p>
+          <small class="doc-file-name">input_records_jan_jun.xlsx</small>
+        </div>
+        <div class="doc-actions">
+          <span class="doc-status status-uploaded">✅ Uploaded</span>
+          <div class="doc-btns">
+            <button class="doc-btn doc-view" onclick="previewDoc(4)">👁 View</button>
+            <button class="doc-btn doc-delete" onclick="deleteDoc(4)">🗑</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-card pending" id="doc-5">
+        <div class="doc-icon">💧</div>
+        <div class="doc-info">
+          <h4>Water Quality Report</h4>
+          <p>Irrigation water test results</p>
+          <small class="doc-file-name doc-pending-text">⚠️ Not yet uploaded</small>
+        </div>
+        <div class="doc-actions">
+          <span class="doc-status status-pending">⏳ Pending</span>
+          <div class="doc-btns">
+            <button class="doc-btn doc-upload-btn" onclick="uploadDoc(5)">📤 Upload</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-card pending" id="doc-6">
+        <div class="doc-icon">🐛</div>
+        <div class="doc-info">
+          <h4>Pest Management Records</h4>
+          <p>Pest log and control methods</p>
+          <small class="doc-file-name doc-pending-text">⚠️ Not yet uploaded</small>
+        </div>
+        <div class="doc-actions">
+          <span class="doc-status status-pending">⏳ Pending</span>
+          <div class="doc-btns">
+            <button class="doc-btn doc-upload-btn" onclick="uploadDoc(6)">📤 Upload</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-card pending" id="doc-7">
+        <div class="doc-icon">🌾</div>
+        <div class="doc-info">
+          <h4>Seed Purchase Receipt</h4>
+          <p>Proof of organic/untreated seeds</p>
+          <small class="doc-file-name doc-pending-text">⚠️ Not yet uploaded</small>
+        </div>
+        <div class="doc-actions">
+          <span class="doc-status status-pending">⏳ Pending</span>
+          <div class="doc-btns">
+            <button class="doc-btn doc-upload-btn" onclick="uploadDoc(7)">📤 Upload</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card upload-new-card">
+      <h3 class="card-title">➕ Upload New Document</h3>
+      <div class="upload-form">
+        <div class="form-group">
+          <label class="form-label" for="newDocName">Document Name</label>
+          <input type="text" id="newDocName" class="form-input" placeholder="e.g., Annual Farm Diary" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="newDocType">Document Type</label>
+          <select id="newDocType" class="form-input">
+            <option>Land Records</option>
+            <option>Soil and Water Reports</option>
+            <option>Organic Practice Records</option>
+            <option>Inspection Documents</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="upload-dropzone" id="uploadDropzone" onclick="document.getElementById('fileInput').click()">
+          <span class="dropzone-icon">☁️</span>
+          <p>Click to browse or drag and drop your file here</p>
+          <small>Supports PDF, JPG, PNG, XLSX — Max 10MB</small>
+          <input type="file" id="fileInput" style="display:none" onchange="handleFileSelect(event)" />
+        </div>
+        <button class="btn btn-primary" style="width:100%" onclick="submitNewDoc()">📤 Upload Document</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ===== PAGE: CALCULATOR ===== -->
+<main id="page-calculator" class="page">
+  <div class="page-container">
+
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">💰 Certification Cost Calculator</h1>
+        <p class="page-desc">Estimate your total organic certification costs before you begin.</p>
+      </div>
+    </div>
+
+    <div class="calc-layout">
+      <div class="card calc-form-card">
+        <h3 class="card-title">📋 Enter Your Farm Details</h3>
+
+        <div class="form-group">
+          <label class="form-label" for="farmSize">Farm Size</label>
+          <select class="form-input" id="farmSize" onchange="calculateCost()">
+            <option value="small">Small (Less than 5 acres)</option>
+            <option value="medium" selected>Medium (5–15 acres)</option>
+            <option value="large">Large (15–50 acres)</option>
+            <option value="xlarge">Very Large (50+ acres)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="certType">Certification Type</label>
+          <select class="form-input" id="certType" onchange="calculateCost()">
+            <option value="npop" selected>NPOP (National Programme for Organic Production)</option>
+            <option value="pgs">PGS-India (Participatory Guarantee System)</option>
+            <option value="usda">USDA Organic</option>
+            <option value="eu">EU Organic</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inspectionReq">Number of Inspections Required</label>
+          <select class="form-input" id="inspectionReq" onchange="calculateCost()">
+            <option value="1" selected>1 Inspection</option>
+            <option value="2">2 Inspections</option>
+            <option value="3">3 Inspections</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="urgencyFee">Processing Speed</label>
+          <select class="form-input" id="urgencyFee" onchange="calculateCost()">
+            <option value="normal" selected>Standard (3–6 months)</option>
+            <option value="fast">Fast Track (1–2 months, +30%)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Add-on Services</label>
+          <div class="addon-options">
+            <label class="addon-item">
+              <input type="checkbox" id="addon1" onchange="calculateCost()" />
+              <span>📋 Document Review Service (Rs. 2,000)</span>
+            </label>
+            <label class="addon-item">
+              <input type="checkbox" id="addon2" onchange="calculateCost()" />
+              <span>📞 Consultant Support (Rs. 3,500)</span>
+            </label>
+            <label class="addon-item">
+              <input type="checkbox" id="addon3" onchange="calculateCost()" />
+              <span>📚 Training Workshop (Rs. 1,500)</span>
+            </label>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="calculateCost()">
+          🧮 Calculate Cost
+        </button>
+      </div>
+
+      <div class="calc-results-col">
+        <div class="card cost-result-card" id="costResultCard">
+          <h3 class="card-title">💵 Cost Breakdown</h3>
+          <div class="cost-items" id="costItems"></div>
+          <div class="cost-divider"></div>
+          <div class="cost-total-row">
+            <span class="cost-total-label">Total Estimated Cost</span>
+            <span class="cost-total-amount" id="totalCost">Rs. 0</span>
+          </div>
+          <p class="cost-note">* Estimates based on average government fees. Actual costs may vary by state and certifying body.</p>
+        </div>
+
+        <div class="card cost-info-card">
+          <h3 class="card-title">💡 Cost Saving Tips</h3>
+          <ul class="tip-list">
+            <li>🏛️ Apply for government subsidies — up to 50% subsidy available for small farmers</li>
+            <li>👥 Join a PGS group for much lower certification costs</li>
+            <li>📝 Prepare all documents yourself to avoid consultant fees</li>
+            <li>🤝 Group certification with neighboring farms reduces per-farm cost</li>
+            <li>📅 Apply during off-peak season to avoid rush surcharges</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ===== PAGE: INSPECTION ===== -->
+<main id="page-inspection" class="page">
+  <div class="page-container">
+
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">🔍 Inspector Preparation Guide</h1>
+        <p class="page-desc">Follow this guide to be fully prepared when the inspector visits.</p>
+      </div>
+      <div class="header-badge badge-warning">📅 Inspection: Oct 15, 2026</div>
+    </div>
+
+    <div class="card inspection-countdown">
+      <div class="countdown-content">
+        <div class="countdown-num">93</div>
+        <div class="countdown-label">Days until inspection</div>
+      </div>
+      <div class="countdown-tips">
+        <p>💡 Start preparing at least <strong>30 days</strong> before inspection</p>
+        <p>📋 Complete all checklist items below before the inspector arrives</p>
+      </div>
+    </div>
+
+    <div class="card inspection-phase">
+      <div class="phase-header phase-1">
+        <h3>Phase 1: 30 Days Before Inspection</h3>
+        <span class="phase-badge">Records and Documents</span>
+      </div>
+      <div class="checklist-items">
+        <label class="check-item" for="insp1"><input type="checkbox" id="insp1" onchange="updateInspectionProgress()" /><span class="check-box"></span><div class="check-content"><strong>Gather all organic input purchase receipts</strong><p>Organize 3 years of input records in a binder or folder</p></div></label>
+        <label class="check-item" for="insp2"><input type="checkbox" id="insp2" onchange="updateInspectionProgress()" /><span class="check-box"></span><div class="check-content"><strong>Complete farm diary entries</strong><p>Fill in all missing daily activity logs for the past season</p></div></label>
+        <label class="check-item" for="insp3"><input type="checkbox" id="insp3" onchange="updateInspectionProgress()" /><span class="check-box"></span><div class="check-content"><strong>Verify all documents are up to date</strong><p>Cross-check checklist — no expired or missing documents</p></div></label>
+        <label class="check-item" for="insp4"><input type="checkbox" id="insp4" onchange="updateInspectionProgress()" /><span class="check-box"></span><div class="check-content"><strong>Prepare field map with labels</strong><p>Clearly mark fields, buffer zones, and water sources on the map</p></div></label>
+      </div>
+    </div>
+
+    <div class="card inspection-phase">
+      <div class="phase-header phase-2">
+        <h3>Phase 2: 2 Weeks Before Inspection</h3>
+        <span class="phase-badge">Farm Preparation</span>
+      </div>
+      <div class="checklist-items">
+        <label class="check-item" for="insp5"><input type="checkbox" id="insp5" onchange="updateInspectionProgress()" /><span class="check-box"></span><div class="check-content"><strong>Clean and organize farm storage area</strong><p>Separate organic produce storage; remove any non-organic items</p></div></label>
+        <label class="check-item" for="insp6"><input type="checkbox" id="insp6" onchange="updateInspectionProgress()" /><span class="check-box"></span><div class="check-content"><strong>Clean all farm equipment</strong><p>Thoroughly clean sprayers, tillers, and other equipment</p></div></label>
+        <label class="check-item" for="insp7"><input type="checkbox" id="insp7" onchange="updateInspectionProgress()" /><span class="check-box"></span><div class="check-content"><strong>Check buffer zones</strong><p>Ensure proper buffers from neighboring conventional farms or roads</p></div></label>
+        <label class="check-item" for="insp8"><input type="checkbox" id="insp8" onchange="updateInspectionProgress()" /><span class="check-box"></span><div class="check-content"><strong>Label all containers and bins</strong><p>Every storage container must be clearly labeled with content and date</p></div></label>
+      </div>
+    </div>
+
+    <div class="card inspection-phase">
+      <div class="phase-header phase-3">
+        <h3>Phase 3: Day Before Inspection</h3>
+        <span class="phase-badge">Final Checks</span>
+      </div>
+      <div class="checklist-items">
+        <label class="check-item" for="insp9"><input type="checkbox" id="insp9" onchange="updateInspectionProgress()" /><span class="check-box"></span><div class="check-content"><strong>Do a final walk-through of entire farm</strong><p>Look through inspector's eyes — fix anything out of place</p></div></label>
+        <label class="check-item" for="insp10"><input type="checkbox" id="insp10" onchange="updateInspectionProgress()" /><span class="check-box"></span><div class="check-content"><strong>Prepare your question-answer sheet</strong><p>Practice answering: conversion date, input history, record-keeping method</p></div></label>
+        <label class="check-item" for="insp11"><input type="checkbox" id="insp11" onchange="updateInspectionProgress()" /><span class="check-box"></span><div class="check-content"><strong>Confirm inspector appointment time</strong><p>Call or message to confirm arrival time and access to farm</p></div></label>
+        <label class="check-item" for="insp12"><input type="checkbox" id="insp12" onchange="updateInspectionProgress()" /><span class="check-box"></span><div class="check-content"><strong>Gather all documents in one folder</strong><p>Bring all originals and photocopies for inspector to review on-site</p></div></label>
+      </div>
+    </div>
+
+    <div class="card inspection-progress-card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span class="cl-progress-label">Inspection Readiness</span>
+        <span class="cl-progress-pct" id="inspectionPct">0%</span>
+      </div>
+      <div class="progress-bar-track" style="margin-top:10px">
+        <div class="progress-bar-fill" id="inspectionBar" style="width:0%"></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ===== PAGE: REMINDERS ===== -->
+<main id="page-reminders" class="page">
+  <div class="page-container">
+
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">🔔 Reminders and Deadlines</h1>
+        <p class="page-desc">Stay on top of important dates and never miss a deadline.</p>
+      </div>
+    </div>
+
+    <div class="alert-banner alert-urgent">
+      <span class="alert-icon">🚨</span>
+      <div>
+        <strong>Urgent:</strong> Water Quality Report is due in <strong>32 days</strong> (August 15, 2026).
+        <a href="#" onclick="showPage('documents', document.querySelector('[onclick*=documents]'));return false;" class="alert-link">Upload now →</a>
+      </div>
+    </div>
+
+    <div class="reminders-grid">
+
+      <div class="card reminder-card urgent" id="rem1">
+        <div class="reminder-badge badge-urgent">🔴 Urgent</div>
+        <div class="reminder-icon">💧</div>
+        <div class="reminder-body">
+          <h3>Water Quality Report</h3>
+          <p>Submit lab-certified water test results to your certifying body</p>
+          <div class="reminder-date"><span>📅 Due Date:</span> <strong>August 15, 2026</strong></div>
+          <div class="reminder-countdown">⏳ 32 days remaining</div>
+        </div>
+        <div class="reminder-actions">
+          <button class="btn btn-sm btn-primary" onclick="showPage('documents', document.querySelector('[onclick*=documents]'))">📤 Upload Document</button>
+          <button class="btn btn-sm btn-outline" onclick="snoozeReminder('rem1')">💤 Snooze 7 days</button>
+        </div>
+      </div>
+
+      <div class="card reminder-card warning" id="rem2">
+        <div class="reminder-badge badge-warning">🟡 Upcoming</div>
+        <div class="reminder-icon">🐛</div>
+        <div class="reminder-body">
+          <h3>Pest Management Records</h3>
+          <p>Submit seasonal pest monitoring logs and organic control measures</p>
+          <div class="reminder-date"><span>📅 Due Date:</span> <strong>September 1, 2026</strong></div>
+          <div class="reminder-countdown">⏳ 49 days remaining</div>
+        </div>
+        <div class="reminder-actions">
+          <button class="btn btn-sm btn-primary" onclick="showPage('documents', document.querySelector('[onclick*=documents]'))">📤 Upload Document</button>
+          <button class="btn btn-sm btn-outline" onclick="snoozeReminder('rem2')">💤 Snooze 7 days</button>
+        </div>
+      </div>
+
+      <div class="card reminder-card info" id="rem3">
+        <div class="reminder-badge badge-info">🔵 Scheduled</div>
+        <div class="reminder-icon">🔍</div>
+        <div class="reminder-body">
+          <h3>Farm Inspection Date</h3>
+          <p>Inspector from APEDA will visit your farm for field verification</p>
+          <div class="reminder-date"><span>📅 Date:</span> <strong>October 15, 2026</strong></div>
+          <div class="reminder-countdown">📌 93 days remaining</div>
+        </div>
+        <div class="reminder-actions">
+          <button class="btn btn-sm btn-primary" onclick="showPage('inspection', document.querySelector('[onclick*=inspection]'))">📋 View Prep Guide</button>
+          <button class="btn btn-sm btn-outline" onclick="snoozeReminder('rem3')">📆 Add to Calendar</button>
+        </div>
+      </div>
+
+      <div class="card reminder-card success" id="rem4">
+        <div class="reminder-badge badge-success">🟢 Future</div>
+        <div class="reminder-icon">🏆</div>
+        <div class="reminder-body">
+          <h3>Certificate Issuance (Est.)</h3>
+          <p>Expected date for receiving your organic certification document</p>
+          <div class="reminder-date"><span>📅 Est. Date:</span> <strong>October 30, 2026</strong></div>
+          <div class="reminder-countdown">🎯 108 days remaining</div>
+        </div>
+        <div class="reminder-actions">
+          <button class="btn btn-sm btn-outline">📧 Email Notification On</button>
+        </div>
+      </div>
+
+      <div class="card reminder-card neutral" id="rem5">
+        <div class="reminder-badge badge-neutral">⚪ Next Year</div>
+        <div class="reminder-icon">🔄</div>
+        <div class="reminder-body">
+          <h3>Certificate Renewal</h3>
+          <p>Annual renewal of your organic certification — keep all records updated</p>
+          <div class="reminder-date"><span>📅 Renewal Date:</span> <strong>October 30, 2027</strong></div>
+          <div class="reminder-countdown">📌 471 days remaining</div>
+        </div>
+        <div class="reminder-actions">
+          <button class="btn btn-sm btn-outline" onclick="showToast('Reminder set!', 'success')">🔔 Set Reminder</button>
+        </div>
+      </div>
+
+      <div id="customRemindersContainer"></div>
+
+    </div>
+
+    <div class="card add-reminder-card">
+      <h3 class="card-title">➕ Add Custom Reminder</h3>
+      <div class="reminder-form">
+        <div class="form-group">
+          <label class="form-label" for="remTitle">Reminder Title</label>
+          <input type="text" id="remTitle" class="form-input" placeholder="e.g., Submit Annual Report" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="remDate">Due Date</label>
+          <input type="date" id="remDate" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="remNote">Notes (optional)</label>
+          <input type="text" id="remNote" class="form-input" placeholder="Add any additional details" />
+        </div>
+        <button class="btn btn-primary" onclick="addReminder()">🔔 Add Reminder</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ===== DOC PREVIEW MODAL ===== -->
+<div class="modal-overlay" id="docModal" onclick="closeModal()">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="modalTitle">Document Preview</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal()">Close</button>
+      <button class="btn btn-primary">📥 Download</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TOAST NOTIFICATIONS ===== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
