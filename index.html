@@ -25,7 +25,10 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+  <!-- Local Storage Backend (works without Firebase) -->
+  <script src="local-storage.js"></script>
   <script src="firebase-config.js"></script>
+
 </head>
 <body>
 
@@ -1185,63 +1188,86 @@
     if (e.target === document.getElementById('authOverlay')) closeAuthModal();
   }
 
-  // Real file upload via Firebase Storage
+  // Real / Local file upload
   async function submitNewDocReal() {
     const name      = document.getElementById('newDocName')?.value?.trim();
     const fileInput = document.getElementById('fileInput');
     const file      = fileInput?.files?.[0];
 
-    if (!currentUser) {
-      document.getElementById('uploadLoginNote').style.display = 'block';
-      openAuthModal('signin');
-      return;
-    }
     if (!name)  { showToast('Please enter a document name', 'error'); return; }
     if (!file)  { showToast('Please select a file to upload', 'error'); return; }
 
-    const result = await uploadFileToStorage(currentUser.uid, file, name);
-    if (result) {
-      showToast('✅ "' + name + '" uploaded to cloud!', 'success');
-      document.getElementById('newDocName').value = '';
-      fileInput.value = '';
-      document.getElementById('uploadDropzone').innerHTML = `
-        <span class="dropzone-icon">☁️</span>
-        <p>Click to browse or drag and drop your file here</p>
-        <small>Supports PDF, JPG, PNG, XLSX — Max 10MB</small>
-        <input type="file" id="fileInput" style="display:none" onchange="handleFileSelect(event)" />`;
-      // Reload cloud docs list
-      await loadAndApplyDocuments(currentUser.uid);
+    // If Firebase ready and user logged in — upload to cloud
+    if (isFirebaseReady() && currentUser) {
+      const result = await uploadFileToStorage(currentUser.uid, file, name);
+      if (result) {
+        showToast('✅ "' + name + '" uploaded to cloud!', 'success');
+        document.getElementById('newDocName').value = '';
+        fileInput.value = '';
+        resetDropzone();
+        await loadAndApplyDocuments(currentUser.uid);
+      }
+      return;
     }
+
+    // Local mode — simulate upload animation then save to localStorage
+    const progressWrap = document.getElementById('uploadProgressWrap');
+    const progressBar  = document.getElementById('uploadProgressBar');
+    if (progressWrap) progressWrap.style.display = 'block';
+
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += Math.random() * 20;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+        if (progressBar) progressBar.textContent = '100%';
+        if (progressBar) progressBar.style.width  = '100%';
+
+        setTimeout(() => {
+          if (progressWrap) progressWrap.style.display = 'none';
+          if (progressBar)  { progressBar.textContent = '0%'; progressBar.style.width = '0%'; }
+          showToast('✅ "' + name + '" saved locally!', 'success');
+          document.getElementById('newDocName').value = '';
+          fileInput.value = '';
+          resetDropzone();
+        }, 500);
+      } else {
+        if (progressBar) {
+          progressBar.textContent = Math.round(progress) + '%';
+          progressBar.style.width  = Math.round(progress) + '%';
+        }
+      }
+    }, 150);
   }
 
-  // Patch checklist to auto-save
-  document.addEventListener('DOMContentLoaded', () => {
-    const checkboxIds = ['cl1','cl2','cl3','cl4','cl5','cl6','cl7','cl8','cl9','cl10','cl11','cl12'];
-    checkboxIds.forEach(id => {
-      const cb = document.getElementById(id);
-      if (cb) {
-        cb.addEventListener('change', () => {
-          if (currentUser) {
-            saveChecklistState(currentUser.uid);
-          }
-        });
-      }
-    });
-  });
+  function resetDropzone() {
+    const dropzone = document.getElementById('uploadDropzone');
+    if (dropzone) dropzone.innerHTML = `
+      <span class="dropzone-icon">☁️</span>
+      <p>Click to browse or drag and drop your file here</p>
+      <small>Supports PDF, JPG, PNG, XLSX — Max 10MB</small>
+      <input type="file" id="fileInput" style="display:none" onchange="handleFileSelect(event)" />`;
+  }
 
-  // Patch addReminder to also save to Firestore
+
+  // Checklist auto-save is now handled inside updateChecklist() in app.js
+
+
+  // Patch addReminder to also save to Firestore (if Firebase ready)
   const _origAddReminder = addReminder;
   window.addReminder = async function() {
     const title = document.getElementById('remTitle')?.value?.trim();
     const date  = document.getElementById('remDate')?.value;
     const note  = document.getElementById('remNote')?.value?.trim();
 
-    _origAddReminder(); // run original (adds to UI)
+    _origAddReminder(); // runs original (adds to UI + localStorage)
 
-    if (currentUser && title && date) {
+    if (isFirebaseReady() && currentUser && title && date) {
       await saveReminderToDb(currentUser.uid, { title, date, note });
     }
   };
+
 
   // Show sync banner after 2s if not logged in and Firebase is ready
   setTimeout(() => {

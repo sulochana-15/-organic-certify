@@ -1,5 +1,7 @@
 /* =============================================
-   auth.js — OrganicCertify Firebase Auth
+   auth.js — OrganicCertify
+   Works with LOCAL storage (no Firebase needed).
+   If Firebase is configured, it upgrades to cloud.
    ============================================= */
 
 /* ── Current user state ── */
@@ -24,8 +26,8 @@ function closeAuthModal() {
 function switchAuthTab(tab) {
   const signinForm = document.getElementById('signinForm');
   const signupForm = document.getElementById('signupForm');
-  const signinTab = document.getElementById('signinTab');
-  const signupTab = document.getElementById('signupTab');
+  const signinTab  = document.getElementById('signinTab');
+  const signupTab  = document.getElementById('signupTab');
 
   if (tab === 'signin') {
     signinForm.classList.remove('hidden');
@@ -56,15 +58,15 @@ function showAuthError(elementId, message) {
 
 function parseFirebaseError(code) {
   const msgs = {
-    'auth/user-not-found': '❌ No account found with this email.',
-    'auth/wrong-password': '❌ Incorrect password. Try again.',
-    'auth/email-already-in-use': '❌ This email is already registered. Sign in instead.',
-    'auth/weak-password': '❌ Password must be at least 6 characters.',
-    'auth/invalid-email': '❌ Please enter a valid email address.',
-    'auth/popup-closed-by-user': 'ℹ️ Sign-in popup was closed.',
-    'auth/network-request-failed': '❌ Network error. Check your connection.',
-    'auth/too-many-requests': '⚠️ Too many attempts. Try again later.',
-    'auth/invalid-credential': '❌ Incorrect email or password.',
+    'auth/user-not-found':        '❌ No account found with this email.',
+    'auth/wrong-password':        '❌ Incorrect password. Try again.',
+    'auth/email-already-in-use':  '❌ This email is already registered. Sign in instead.',
+    'auth/weak-password':         '❌ Password must be at least 6 characters.',
+    'auth/invalid-email':         '❌ Please enter a valid email address.',
+    'auth/popup-closed-by-user':  'ℹ️ Sign-in popup was closed.',
+    'auth/network-request-failed':'❌ Network error. Check your connection.',
+    'auth/too-many-requests':     '⚠️ Too many attempts. Try again later.',
+    'auth/invalid-credential':    '❌ Incorrect email or password.',
   };
   return msgs[code] || '❌ Something went wrong. Please try again.';
 }
@@ -80,23 +82,34 @@ function setAuthLoading(btnId, loading) {
 
 /* ── Email / Password Sign In ── */
 async function signInWithEmail() {
-  if (!isFirebaseReady()) {
-    showAuthError('signinError', '⚠️ Firebase not configured yet. See firebase-config.js setup instructions.');
-    return;
-  }
-  const email = document.getElementById('signinEmail').value.trim();
+  const email    = document.getElementById('signinEmail').value.trim();
   const password = document.getElementById('signinPassword').value;
 
-  if (!email || !password) {
-    showAuthError('signinError', '❌ Please enter your email and password.');
-    return;
-  }
+  if (!email)    { showAuthError('signinError', '❌ Please enter your email.'); return; }
+  if (!password) { showAuthError('signinError', '❌ Please enter your password.'); return; }
 
   setAuthLoading('signinBtn', true);
+
   try {
-    await auth.signInWithEmailAndPassword(email, password);
-    closeAuthModal();
-    showToast('👋 Welcome back!', 'success');
+    // Try Firebase first if available
+    if (isFirebaseReady()) {
+      await auth.signInWithEmailAndPassword(email, password);
+      closeAuthModal();
+      showToast('👋 Welcome back!', 'success');
+    } else {
+      // Local sign in
+      const result = window.__localAuth.signIn(email, password);
+      if (!result.ok) {
+        showAuthError('signinError', parseFirebaseError(result.error));
+        return;
+      }
+      currentUser = result.user;
+      window.__localAuth.saveSession(result.user);
+      closeAuthModal();
+      updateNavbarAuthState(currentUser);
+      onUserLoggedIn(currentUser);
+      showToast('👋 Welcome back, ' + currentUser.displayName + '!', 'success');
+    }
   } catch (err) {
     showAuthError('signinError', parseFirebaseError(err.code));
   } finally {
@@ -106,32 +119,42 @@ async function signInWithEmail() {
 
 /* ── Email / Password Sign Up ── */
 async function signUpWithEmail() {
-  if (!isFirebaseReady()) {
-    showAuthError('signupError', '⚠️ Firebase not configured yet. See firebase-config.js setup instructions.');
-    return;
-  }
-  const name = document.getElementById('signupName').value.trim();
-  const email = document.getElementById('signupEmail').value.trim();
+  const name     = document.getElementById('signupName').value.trim();
+  const email    = document.getElementById('signupEmail').value.trim();
   const password = document.getElementById('signupPassword').value;
 
-  if (!name) { showAuthError('signupError', '❌ Please enter your full name.'); return; }
-  if (!email) { showAuthError('signupError', '❌ Please enter your email.'); return; }
+  if (!name)     { showAuthError('signupError', '❌ Please enter your full name.'); return; }
+  if (!email)    { showAuthError('signupError', '❌ Please enter your email.'); return; }
   if (!password) { showAuthError('signupError', '❌ Please enter a password.'); return; }
+  if (password.length < 6) { showAuthError('signupError', '❌ Password must be at least 6 characters.'); return; }
 
   setAuthLoading('signupBtn', true);
+
   try {
-    const cred = await auth.createUserWithEmailAndPassword(email, password);
-    await cred.user.updateProfile({ displayName: name });
-
-    // Create user profile in Firestore
-    await saveUserProfile(cred.user.uid, {
-      name,
-      email,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    });
-
-    closeAuthModal();
-    showToast(`🎉 Welcome, ${name}! Your account is ready.`, 'success');
+    if (isFirebaseReady()) {
+      const cred = await auth.createUserWithEmailAndPassword(email, password);
+      await cred.user.updateProfile({ displayName: name });
+      await saveUserProfile(cred.user.uid, {
+        name, email,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      closeAuthModal();
+      showToast(`🎉 Welcome, ${name}! Your account is ready.`, 'success');
+    } else {
+      // Local registration
+      const result = window.__localAuth.register(name, email, password);
+      if (!result.ok) {
+        showAuthError('signupError', parseFirebaseError(result.error));
+        return;
+      }
+      currentUser = result.user;
+      window.__localAuth.saveSession(result.user);
+      window.__localDB.saveProfile({ name, email, uid: result.user.uid });
+      closeAuthModal();
+      updateNavbarAuthState(currentUser);
+      onUserLoggedIn(currentUser);
+      showToast(`🎉 Welcome, ${name}! Your account is ready.`, 'success');
+    }
   } catch (err) {
     showAuthError('signupError', parseFirebaseError(err.code));
   } finally {
@@ -139,23 +162,22 @@ async function signUpWithEmail() {
   }
 }
 
-/* ── Google Sign In ── */
+/* ── Google Sign In (Firebase only) ── */
 async function signInWithGoogle() {
   if (!isFirebaseReady()) {
-    showToast('⚠️ Firebase not configured yet.', 'warning');
+    showToast('⚠️ Google Sign-In requires Firebase setup. Use email/password instead.', 'warning');
     return;
   }
   try {
     const result = await auth.signInWithPopup(googleProvider);
-    const user = result.user;
-    // Create profile if first time
-    const ref = db.collection('users').doc(user.uid);
-    const snap = await ref.get();
+    const user   = result.user;
+    const ref    = db.collection('users').doc(user.uid);
+    const snap   = await ref.get();
     if (!snap.exists) {
       await ref.set({
-        name: user.displayName,
-        email: user.email,
-        photoURL: user.photoURL,
+        name:      user.displayName,
+        email:     user.email,
+        photoURL:  user.photoURL,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
     }
@@ -170,30 +192,31 @@ async function signInWithGoogle() {
 
 /* ── Sign Out ── */
 async function handleSignOut() {
-  if (!isFirebaseReady()) return;
-  try {
-    await auth.signOut();
-    currentUser = null;
-    showToast('👋 Signed out successfully.', 'info');
-    // Reset to local state
-    updateNavbarAuthState(null);
-  } catch (err) {
-    showToast('Error signing out.', 'error');
+  if (isFirebaseReady()) {
+    try { await auth.signOut(); } catch {}
   }
+  currentUser = null;
+  window.__localAuth.clearSession();
+  updateNavbarAuthState(null);
+  showToast('👋 Signed out successfully.', 'info');
 }
 
 /* ── Update Navbar based on auth state ── */
 function updateNavbarAuthState(user) {
-  const signInBtn = document.getElementById('navSignInBtn');
+  const signInBtn   = document.getElementById('navSignInBtn');
   const userSection = document.getElementById('navUserSection');
-  const userName = document.getElementById('navUserName');
-  const userAvatar = document.getElementById('navUserAvatar');
-  const syncBanner = document.getElementById('syncBanner');
+  const userName    = document.getElementById('navUserName');
+  const userAvatar  = document.getElementById('navUserAvatar');
+  const dropName    = document.getElementById('dropdownName');
+  const dropEmail   = document.getElementById('dropdownEmail');
+  const syncBanner  = document.getElementById('syncBanner');
 
   if (user) {
-    if (signInBtn) signInBtn.style.display = 'none';
+    if (signInBtn)   signInBtn.style.display   = 'none';
     if (userSection) userSection.style.display = 'flex';
-    if (userName) userName.textContent = user.displayName || user.email.split('@')[0];
+    if (userName)    userName.textContent       = user.displayName || user.email.split('@')[0];
+    if (dropName)    dropName.textContent       = user.displayName || 'Farmer';
+    if (dropEmail)   dropEmail.textContent      = user.email || '';
     if (userAvatar) {
       if (user.photoURL) {
         userAvatar.innerHTML = `<img src="${user.photoURL}" alt="avatar" class="user-photo" />`;
@@ -204,9 +227,9 @@ function updateNavbarAuthState(user) {
     }
     if (syncBanner) syncBanner.style.display = 'none';
   } else {
-    if (signInBtn) signInBtn.style.display = 'flex';
+    if (signInBtn)   signInBtn.style.display   = 'flex';
     if (userSection) userSection.style.display = 'none';
-    if (syncBanner) syncBanner.style.display = isFirebaseReady() ? 'flex' : 'none';
+    if (syncBanner)  syncBanner.style.display  = 'flex';
   }
 }
 
@@ -222,23 +245,89 @@ document.addEventListener('click', (e) => {
   }
 });
 
-/* ── Auth State Listener ── */
+/* ── Called when user logs in ── */
+function onUserLoggedIn(user) {
+  // Load saved checklist from localStorage
+  const loaded = window.__localDB.loadChecklist();
+  if (loaded && typeof updateChecklist === 'function') updateChecklist();
+
+  // Load saved reminders from localStorage
+  const reminders = window.__localDB.getReminders();
+  renderSavedReminders(reminders);
+}
+
+/* ── Render reminders from localStorage ── */
+function renderSavedReminders(reminders) {
+  if (!reminders || reminders.length === 0) return;
+  const container = document.getElementById('customRemindersContainer');
+  if (!container) return;
+  container.innerHTML = '';
+
+  reminders.forEach(rem => {
+    const dateObj = new Date(rem.date);
+    const today   = new Date();
+    const diffDays = Math.ceil((dateObj - today) / (1000 * 60 * 60 * 24));
+    const formatted = dateObj.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    const html = `
+      <div class="card reminder-card info" id="${rem.id}">
+        <div class="reminder-badge badge-info">🔵 Custom</div>
+        <div class="reminder-icon">📌</div>
+        <div class="reminder-body">
+          <h3>${rem.title}</h3>
+          <p>${rem.note || 'Custom reminder'}</p>
+          <div class="reminder-date"><span>📅 Due Date:</span> <strong>${formatted}</strong></div>
+          <div class="reminder-countdown">${diffDays > 0 ? '⏳ ' + diffDays + ' days remaining' : '⚠️ Overdue!'}</div>
+        </div>
+        <div class="reminder-actions">
+          <button class="btn btn-sm btn-outline" onclick="removeLocalReminder('${rem.id}', this)">🗑 Remove</button>
+        </div>
+      </div>`;
+    container.insertAdjacentHTML('beforeend', html);
+  });
+}
+
+function removeLocalReminder(id, btn) {
+  // Remove from UI
+  btn.closest('.reminder-card').remove();
+  // Remove from localStorage
+  const list = window.__localDB.getReminders().filter(r => r.id !== id);
+  window.__localDB.saveReminders ? window.__localDB.saveReminders(list) : null;
+  // Update via localSaveReminders directly
+  try {
+    const all = JSON.parse(localStorage.getItem('oc_reminders') || '[]');
+    const updated = all.filter(r => r.id !== id);
+    localStorage.setItem('oc_reminders', JSON.stringify(updated));
+  } catch {}
+  showToast('Reminder removed', 'info');
+}
+
+/* ── Firebase Auth State Listener (if available) ── */
 if (isFirebaseReady()) {
   auth.onAuthStateChanged(async (user) => {
     currentUser = user;
     updateNavbarAuthState(user);
 
     if (user) {
-      // Load user's saved data
       await loadAndApplyChecklistState(user.uid);
       await loadAndApplyReminders(user.uid);
       await loadAndApplyDocuments(user.uid);
     }
   });
 } else {
-  // Not configured — show sync banner
+  // Restore local session on page load
   document.addEventListener('DOMContentLoaded', () => {
-    const syncBanner = document.getElementById('syncBanner');
-    if (syncBanner) syncBanner.style.display = 'none'; // hide until configured
+    const session = window.__localAuth.getSession();
+    if (session) {
+      currentUser = session;
+      updateNavbarAuthState(session);
+      onUserLoggedIn(session);
+    } else {
+      // Show sync banner after 2s
+      setTimeout(() => {
+        const syncBanner = document.getElementById('syncBanner');
+        if (syncBanner && !currentUser) syncBanner.style.display = 'flex';
+      }, 2000);
+    }
   });
 }

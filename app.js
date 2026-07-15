@@ -102,7 +102,6 @@ function updateChecklist() {
     }
   });
 
-
   // Update section badges
   Object.entries(CHECKLIST_SECTIONS).forEach(([key, ids]) => {
     const badge = document.getElementById('badge-' + key);
@@ -121,6 +120,16 @@ function updateChecklist() {
   if (pctEl) pctEl.textContent = pct + '%';
   if (barEl) barEl.style.width = pct + '%';
   if (countEl) countEl.innerHTML = `<span>✅ ${checkedCount} Completed</span><span>⏳ ${TOTAL_ITEMS - checkedCount} Pending</span>`;
+
+  // Auto-save to localStorage
+  if (window.__localDB) window.__localDB.saveChecklist();
+  // Also sync Firebase if available
+  if (typeof saveChecklistState === 'function' && typeof currentUser !== 'undefined' && currentUser) {
+    saveChecklistState(currentUser.uid);
+  }
+
+  // Update dashboard progress circle
+  updateDashboardProgress(pct, checkedCount);
 
   if (pct === 100) showToast('🎉 All checklist items complete! You\'re ready!', 'success');
 }
@@ -356,19 +365,23 @@ function snoozeReminder(remId) {
 
 function addReminder() {
   const title = document.getElementById('remTitle')?.value?.trim();
-  const date = document.getElementById('remDate')?.value;
-  const note = document.getElementById('remNote')?.value?.trim();
+  const date  = document.getElementById('remDate')?.value;
+  const note  = document.getElementById('remNote')?.value?.trim();
 
   if (!title) { showToast('Please enter a reminder title', 'error'); return; }
-  if (!date) { showToast('Please select a due date', 'error'); return; }
+  if (!date)  { showToast('Please select a due date', 'error'); return; }
 
-  const dateObj = new Date(date);
-  const today = new Date();
-  const diffDays = Math.ceil((dateObj - today) / (1000 * 60 * 60 * 24));
+  const dateObj     = new Date(date);
+  const today       = new Date();
+  const diffDays    = Math.ceil((dateObj - today) / (1000 * 60 * 60 * 24));
   const formattedDate = dateObj.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
 
-  customReminderCount++;
-  const remId = 'custom-rem-' + customReminderCount;
+  // Save to localStorage and get entry with ID
+  let remId = 'rem_' + Date.now();
+  if (window.__localDB) {
+    const entry = window.__localDB.addReminder({ title, date, note });
+    remId = entry.id;
+  }
 
   const html = `
     <div class="card reminder-card info" id="${remId}">
@@ -381,7 +394,7 @@ function addReminder() {
         <div class="reminder-countdown">${diffDays > 0 ? '⏳ ' + diffDays + ' days remaining' : '⚠️ Overdue!'}</div>
       </div>
       <div class="reminder-actions">
-        <button class="btn btn-sm btn-outline" onclick="this.closest('.reminder-card').remove();showToast('Reminder removed','info')">🗑 Remove</button>
+        <button class="btn btn-sm btn-outline" onclick="removeLocalReminder('${remId}', this)">🗑 Remove</button>
       </div>
     </div>`;
 
@@ -390,10 +403,25 @@ function addReminder() {
 
   // Clear form
   document.getElementById('remTitle').value = '';
-  document.getElementById('remDate').value = '';
+  document.getElementById('remDate').value  = '';
   if (document.getElementById('remNote')) document.getElementById('remNote').value = '';
 
   showToast('Reminder added: "' + title + '"', 'success');
+}
+
+/* =============================================
+   DASHBOARD LIVE PROGRESS
+   ============================================= */
+function updateDashboardProgress(pct, checkedCount) {
+  const progressPct = document.getElementById('progressPct');
+  if (progressPct) progressPct.textContent = pct + '%';
+
+  const circle = document.getElementById('progressCircle');
+  if (circle) {
+    const circumference = 2 * Math.PI * 52;
+    circle.style.strokeDasharray  = circumference;
+    circle.style.strokeDashoffset = circumference - (circumference * pct / 100);
+  }
 }
 
 /* =============================================
