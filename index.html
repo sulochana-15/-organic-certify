@@ -1191,8 +1191,8 @@
   // Real / Local file upload
   async function submitNewDocReal() {
     const name      = document.getElementById('newDocName')?.value?.trim();
-    const fileInput = document.getElementById('fileInput');
-    const file      = fileInput?.files?.[0];
+    // Use the globally stored selectedFile (fileInput gets destroyed when dropzone HTML changes)
+    const file = window.selectedFile || document.getElementById('fileInput')?.files?.[0];
 
     if (!name)  { showToast('Please enter a document name', 'error'); return; }
     if (!file)  { showToast('Please select a file to upload', 'error'); return; }
@@ -1242,12 +1242,13 @@
   }
 
   function resetDropzone() {
+    window.selectedFile = null; // Clear the stored file reference
     const dropzone = document.getElementById('uploadDropzone');
-    if (dropzone) dropzone.innerHTML = `
-      <span class="dropzone-icon">☁️</span>
-      <p>Click to browse or drag and drop your file here</p>
-      <small>Supports PDF, JPG, PNG, XLSX — Max 10MB</small>
-      <input type="file" id="fileInput" style="display:none" onchange="handleFileSelect(event)" />`;
+    if (dropzone) dropzone.innerHTML =
+      '<span class="dropzone-icon">☁️</span>' +
+      '<p>Click to browse or drag and drop your file here</p>' +
+      '<small>Supports PDF, JPG, PNG, XLSX — Max 10MB</small>' +
+      '<input type="file" id="fileInput" style="display:none" onchange="handleFileSelect(event)" />';
   }
 
 

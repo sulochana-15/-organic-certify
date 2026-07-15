@@ -149,6 +149,7 @@ function selectAll(state) {
    ============================================= */
 let uploadedCount = 4;
 const totalDocs = 7;
+let selectedFile = null; // Store file reference globally so it persists after dropzone HTML changes
 
 function updateDocStats() {
   const pct = Math.round((uploadedCount / totalDocs) * 100);
@@ -244,11 +245,14 @@ function uploadDoc(id) {
 function handleFileSelect(event) {
   const file = event.target.files[0];
   if (!file) return;
+  selectedFile = file; // Save globally before dropzone HTML is replaced
   const dropzone = document.getElementById('uploadDropzone');
-  dropzone.innerHTML = `
-    <span class="dropzone-icon">📄</span>
-    <p style="color:var(--green-700);font-weight:700">${file.name}</p>
-    <small style="color:var(--gray-500)">${(file.size / 1024).toFixed(1)} KB — Ready to upload</small>`;
+  const sizekb = (file.size / 1024).toFixed(1);
+  dropzone.innerHTML =
+    '<span class="dropzone-icon">📄</span>' +
+    '<p style="color:var(--green-700);font-weight:700">' + file.name + '</p>' +
+    '<small style="color:var(--gray-500)">' + sizekb + ' KB — Ready to upload</small>' +
+    '<small style="color:var(--green-600);margin-top:4px;display:block">✅ File selected — click Upload to Cloud</small>';
 }
 
 function submitNewDoc() {
