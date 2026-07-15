@@ -1,32 +1,52 @@
 import re
 
+# ============================================================
+# FIX 1: app.js — change let selectedFile to window.selectedFile
+# ============================================================
+with open('app.js', 'r', encoding='utf-8') as f:
+    app = f.read()
+
+# Fix declaration: let selectedFile = null  ->  window.selectedFile = null
+app = app.replace(
+    'let selectedFile = null; // Store file reference globally so it persists after dropzone HTML changes',
+    'window.selectedFile = null; // Store file reference globally (window so inline scripts can access it)'
+)
+
+# Fix assignment in handleFileSelect: selectedFile = file  ->  window.selectedFile = file
+app = app.replace(
+    'selectedFile = file; // Save globally before dropzone HTML is replaced',
+    'window.selectedFile = file; // Save on window so inline HTML scripts can access it'
+)
+
+with open('app.js', 'w', encoding='utf-8') as f:
+    f.write(app)
+print('app.js fixed')
+
+# ============================================================
+# FIX 2: index.html — resetDropzone clear + submitNewDocReal use window.selectedFile
+# ============================================================
 with open('index.html', 'r', encoding='utf-8') as f:
-    content = f.read()
+    html = f.read()
 
-# Fix resetDropzone to also clear selectedFile global
-old = """  function resetDropzone() {
-    const dropzone = document.getElementById('uploadDropzone');
-    if (dropzone) dropzone.innerHTML = `
-      <span class="dropzone-icon">\u2601\ufe0f</span>
-      <p>Click to browse or drag and drop your file here</p>
-      <small>Supports PDF, JPG, PNG, XLSX \u2014 Max 10MB</small>
-      <input type="file" id="fileInput" style="display:none" onchange="handleFileSelect(event)" />`;\n  }"""
+# Fix resetDropzone to clear window.selectedFile
+html = html.replace(
+    'window.selectedFile = null; // Clear the stored file reference',
+    'window.selectedFile = null; // Clear file after upload'
+)
 
-new = """  function resetDropzone() {
-    window.selectedFile = null; // Clear the stored file reference
-    const dropzone = document.getElementById('uploadDropzone');
-    if (dropzone) dropzone.innerHTML =
-      '<span class="dropzone-icon">\u2601\ufe0f</span>' +
-      '<p>Click to browse or drag and drop your file here</p>' +
-      '<small>Supports PDF, JPG, PNG, XLSX \u2014 Max 10MB</small>' +
-      '<input type="file" id="fileInput" style="display:none" onchange="handleFileSelect(event)" />';\n  }"""
-
-if old in content:
-    content = content.replace(old, new)
-    with open('index.html', 'w', encoding='utf-8') as f:
-        f.write(content)
-    print('SUCCESS: resetDropzone patched')
+# Ensure submitNewDocReal uses window.selectedFile (already patched, just verify)
+if 'window.selectedFile || document.getElementById' in html:
+    print('index.html submitNewDocReal already uses window.selectedFile - OK')
 else:
-    print('NOT FOUND - looking for resetDropzone...')
-    idx = content.find('resetDropzone')
-    print(repr(content[idx:idx+400]))
+    # Patch it
+    html = html.replace(
+        "const file      = fileInput?.files?.[0];",
+        "const file      = window.selectedFile || fileInput?.files?.[0];"
+    )
+    print('index.html submitNewDocReal patched')
+
+with open('index.html', 'w', encoding='utf-8') as f:
+    f.write(html)
+print('index.html fixed')
+
+print('\nAll fixes applied successfully!')

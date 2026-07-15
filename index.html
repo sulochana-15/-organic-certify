@@ -1242,7 +1242,7 @@
   }
 
   function resetDropzone() {
-    window.selectedFile = null; // Clear the stored file reference
+    window.selectedFile = null; // Clear file after upload
     const dropzone = document.getElementById('uploadDropzone');
     if (dropzone) dropzone.innerHTML =
       '<span class="dropzone-icon">☁️</span>' +

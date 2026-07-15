@@ -149,7 +149,7 @@ function selectAll(state) {
    ============================================= */
 let uploadedCount = 4;
 const totalDocs = 7;
-let selectedFile = null; // Store file reference globally so it persists after dropzone HTML changes
+window.selectedFile = null; // Store file reference globally (window so inline scripts can access it)
 
 function updateDocStats() {
   const pct = Math.round((uploadedCount / totalDocs) * 100);
@@ -245,7 +245,7 @@ function uploadDoc(id) {
 function handleFileSelect(event) {
   const file = event.target.files[0];
   if (!file) return;
-  selectedFile = file; // Save globally before dropzone HTML is replaced
+  window.selectedFile = file; // Save on window so inline HTML scripts can access it
   const dropzone = document.getElementById('uploadDropzone');
   const sizekb = (file.size / 1024).toFixed(1);
   dropzone.innerHTML =
